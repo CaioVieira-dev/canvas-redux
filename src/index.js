@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux'
-
+import './styles.css'
 import store from './store'
 
 import App from './App';
@@ -12,12 +12,6 @@ const unsubscribe = store.subscribe(() =>  console.log('State after dispatch: ',
 
 store.dispatch({type:"placeholder/test",payload:""})
 
-setTimeout(() => {
-  store.dispatch({
-    type:"draw/translate",
-    payload:{x:50,y:30}
-  })
-},2000)
 unsubscribe()
 
 
