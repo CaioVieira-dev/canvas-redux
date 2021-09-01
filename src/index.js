@@ -12,6 +12,12 @@ const unsubscribe = store.subscribe(() =>  console.log('State after dispatch: ',
 
 store.dispatch({type:"placeholder/test",payload:""})
 
+setTimeout(() => {
+  store.dispatch({
+    type:"draw/translate",
+    payload:{x:50,y:30}
+  })
+},2000)
 unsubscribe()
 
 
