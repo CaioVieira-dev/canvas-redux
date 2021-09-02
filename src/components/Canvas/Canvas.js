@@ -31,11 +31,11 @@ const Canvas = props=>{
             if(item.coordinates.length>1){ 
                 for(let i=0; i<item.coordinates.length;i++){
                     context.lineTo(item.coordinates[i].x, item.coordinates[i].y)
-                    context.closePath()
-                    context.stroke()
                     context.moveTo(item.coordinates[i].x, item.coordinates[i].y)
                     
                 }
+                context.closePath()
+                context.stroke()
             }
 
 
