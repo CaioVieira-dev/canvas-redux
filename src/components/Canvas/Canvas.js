@@ -24,6 +24,23 @@ const Canvas = props=>{
         }
         store.subscribe(draw)
         function startEvent(event){
+            for(let i=state.items.length-1; i>=0; i--){
+                const item = state.items[i];
+                
+                context.beginPath();
+                context.rect(item.x, item.y, item.width, item.height)
+                if(context.isPointInPath(event.offsetX,event.offsetY)){
+                    dispatch({
+                        type:"draw/translate-item-start",
+                        payload:{
+                            id:item.id,
+                            xDragging:event.offsetX,
+                            yDragging:event.offsetY,
+                        }
+                    })
+                    return
+                }
+            }
             dispatch({
                 type:"draw/translate-canvas-start",
                 payload:{
@@ -33,7 +50,15 @@ const Canvas = props=>{
             })
         }
         function dragEvent(event) {
-            if(state.xDragging!==null&&state.yDragging!==null){
+            if(state.draggingItemId!==null){
+                store.dispatch({
+                    type:"draw/translate-item",
+                    payload:{
+                        xDragging:event.offsetX,
+                        yDragging:event.offsetY
+                    } 
+                })
+            }else if(state.xDragging!==null&&state.yDragging!==null){
                 dispatch({
                     type:"draw/translate-canvas",
                     payload:{
@@ -44,7 +69,11 @@ const Canvas = props=>{
             }
         }
         function endEvent(event) {
-            dispatch({type:"draw/translate-canvas-end",payload:{}})
+            if(state.draggingItemId!==null){
+                dispatch({type:"draw/translate-item-end",payload:{}})
+            }else{
+                dispatch({type:"draw/translate-canvas-end",payload:{}})
+            }
         }
         
         canvas.addEventListener('mousedown',startEvent,false)
@@ -62,7 +91,8 @@ const Canvas = props=>{
         state.canvas.y,
         state.items,
         state.xDragging,
-        state.yDragging])
+        state.yDragging,
+        state.draggingItemId])
 
 
     return <canvas ref={canvasRef} {...props}/>
