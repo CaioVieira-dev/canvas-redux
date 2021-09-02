@@ -13,6 +13,9 @@ const Canvas = props=>{
         const canvas = canvasRef.current
         const context = canvas.getContext('2d')
 
+        context.canvas.width = window.innerWidth
+        context.canvas.height = window.innerHeight
+
         const draw = ()=>{
             context.setTransform(1,0,0,1,0,0)
             context.clearRect(0, 0, canvas.width, canvas.height)
